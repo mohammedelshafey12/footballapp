@@ -14,14 +14,14 @@ Container onBoarding1(){
           child: Column(
             children: [
               Text(
-                "Login With Your Account",
-                style: TextStyle(color: whiteColor, fontSize: 25),
+                "سجل دخول بايميلك ",
+                style: TextStyle(color: whiteColor, fontSize: 25,fontFamily: 'custom_font'),
               ),
               SizedBox(height: 17),
               Text(
-                "It is a long established fact that a reader will be distracted by the readable.",
+                "يمكنك الان التسجيل في الابلكيشن الخاص بنا.",
                 textAlign: TextAlign.center,
-                style: TextStyle(color: whiteColor, fontSize: 14),
+                style: TextStyle(color: whiteColor, fontSize: 14,fontFamily: 'custom_font'),
               ),
             ],
           ),

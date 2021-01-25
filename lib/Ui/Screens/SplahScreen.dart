@@ -19,7 +19,7 @@ class _openState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      navigateAndClearStack(context,OnBoarding());
+      navigateAndClearStack(context,Login());
     });
   }
 
