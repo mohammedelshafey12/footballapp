@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "306805962862",
+    "project_id": "affable-hall-219116",
+    "storage_bucket": "affable-hall-219116.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306805962862:android:ccba9a3af58fc5785cce7f",
+        "android_client_info": {
+          "package_name": "com.el7reef.footballapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306805962862-s0tuqt3nl82hhfob9mekvhmm7scmjbus.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz6XiCEhqOzxQ_E5Cfmpw7VBeXfdcb90s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306805962862-s0tuqt3nl82hhfob9mekvhmm7scmjbus.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:footballapp/Ui/SplahScreen.dart';
 
 void main() {
   runApp(MaterialApp(
-    home: Container(),
+    home: SplashScreen(),
   ));
 }
 
