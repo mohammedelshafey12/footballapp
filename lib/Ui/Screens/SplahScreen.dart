@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:footballapp/Ui/OnBoarding.dart';
+import 'package:footballapp/Ui/Screens/OnBoarding.dart';
+import 'package:footballapp/Ui/Screens/login.dart';
 import 'package:footballapp/utils/colors_file.dart';
 import 'dart:async';
-
 import 'package:footballapp/utils/navigator.dart';
-
-
 
 // ignore: camel_case_types
 class SplashScreen extends StatefulWidget {

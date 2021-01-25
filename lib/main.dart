@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:footballapp/Ui/SplahScreen.dart';
+import 'file:///C:/Users/Elshafey/AndroidStudioProjects/footballapp/lib/Ui/Screens/SplahScreen.dart';
 
 void main() {
   runApp(MaterialApp(
