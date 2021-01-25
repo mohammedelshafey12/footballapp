@@ -42,6 +42,7 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: blackColor,
         body: Stack(
       children: [
         Background(),
@@ -68,9 +69,9 @@ class _OnBoardingState extends State<OnBoarding> {
                           ),
                         ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 200),
                   Container(
-                    height: 500,
+                    height: 380,
                     child: PageView(
                       physics: ClampingScrollPhysics(),
                       controller: _pageController,
@@ -90,7 +91,7 @@ class _OnBoardingState extends State<OnBoarding> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: _buildPageIndicator(),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 20),
                   _currentPage==2 ? CustomButton(
                       bttnName: 'Get Start',
                       bttnHeight: 55,

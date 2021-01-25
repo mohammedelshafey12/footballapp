@@ -6,9 +6,9 @@ Container onBoarding2(){
   return Container(
     child: Column(
       children: [
-        Center(
-            child: Image.asset("images/onBoarding2.png",height: 200,),
-        ),
+        // Center(
+        //     child: Image.asset("images/onBoarding2.png",height: 200,),
+        // ),
         SizedBox(height: 36.8),
         Container(
           padding: EdgeInsets.only(left: 0, right: 0),
