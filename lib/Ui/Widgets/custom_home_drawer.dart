@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:footballapp/Services/auth.dart';
+import 'package:footballapp/Ui/Screens/home_page.dart';
+import 'package:footballapp/Ui/Screens/waitingWidget.dart';
 import 'package:footballapp/utils/colors_file.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'package:footballapp/utils/navigator.dart';
 class CustomHomeDrawer extends StatelessWidget {
+  final auth = Auth();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,7 +43,9 @@ class CustomHomeDrawer extends StatelessWidget {
                       'الصفحة الرئيسية',
                       style: TextStyle(color: whiteColor,fontWeight: FontWeight.bold,fontFamily: 'custom_font'),
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      navigateAndClearStack(context, HomePage());
+                    },
                   ),
                   ListTile(
                       leading: Icon(Icons.person, color: whiteColor),
@@ -93,6 +98,32 @@ class CustomHomeDrawer extends StatelessWidget {
                       style: TextStyle(color: whiteColor,fontWeight: FontWeight.bold,fontFamily: 'custom_font'),
                     ),
                     onTap: () {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              backgroundColor: Color(0xff1D1D1D),
+                              title: Text("تسجيل الخروج",style: TextStyle(fontFamily: 'custom_font',color: Colors.white),),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                              actions: [
+                                FlatButton(onPressed: (){
+                                  auth.signout();
+                                  navigateAndClearStack(context, waitngWidget());
+                                }, child: Text("تسجيل الخروج",style: TextStyle(fontFamily: 'custom_font'),)),
+                                FlatButton(onPressed: (){
+
+                                  Navigator.of(context).pop();
+                                }, child: Text("الرجوع للتطبيق",style: TextStyle(fontFamily: 'custom_font'),))
+                              ],
+                              content: Container(
+                                height: MediaQuery.of(context).size.height*0.15,
+                                child: Center(
+                                  child: Text("هل تريد فعلا تسجيل الخروج؟",style: TextStyle(fontFamily: 'custom_font',color: Colors.white),),
+                                ),
+                              ),
+                            );
+                          });
+
                     },
                   )
                 ],

@@ -7,43 +7,6 @@ import 'package:footballapp/Ui/Widgets/custom_home_drawer.dart';
 import 'package:footballapp/utils/colors_file.dart';
 
 class HomeScreen extends StatelessWidget {
-  // List<Widget> sliderImages = [
-  //   Image(
-  //     image: AssetImage("images/carosal-1.jpg"),
-  //     fit: BoxFit.cover,
-  //   ),
-  //   Image(
-  //     image: AssetImage("images/carosal-3.jpg"),
-  //     fit: BoxFit.cover,
-  //   ),
-  //   Image(
-  //     image: AssetImage("images/carosal-4.jpg"),
-  //     fit: BoxFit.cover,
-  //   ),
-  //   Image(
-  //     image: AssetImage("images/carosal-5.jpg"),
-  //     fit: BoxFit.cover,
-  //   ),
-  // ];
-
-  List<Widget> sliderImages = [
-    Image(
-      image: AssetImage("images/carosal-1.jpg"),
-      fit: BoxFit.cover,
-    ),
-    Image(
-      image: AssetImage("images/carosal-1.jpg"),
-      fit: BoxFit.cover,
-    ),
-    Image(
-      image: AssetImage("images/carosal-1.jpg"),
-      fit: BoxFit.cover,
-    ),
-    Image(
-      image: AssetImage("images/carosal-1.jpg"),
-      fit: BoxFit.cover,
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -171,23 +134,9 @@ class HomeScreen extends StatelessWidget {
                                 fontSize: 13)),
                       ),
                     ),
+
                   ],
                 ),
-                // Container(
-                //   margin: EdgeInsets.only(top: 10),
-                //   height: 200,
-                //   child: CarouselSlider(
-                //     items: sliderImages,
-                //     options: CarouselOptions(
-                //       height: 400,
-                //       autoPlay: true,
-                //       enlargeCenterPage: true,
-                //       scrollDirection: Axis.horizontal,
-                //       autoPlayCurve: Curves.easeInOutQuad,
-                //       autoPlayAnimationDuration: Duration(milliseconds: 1500),
-                //     ),
-                //   ), //Top Slider
-                // ),
                 SizedBox(
                   height: 20,
                 ),

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 //import 'package:flutter_svg/svg.dart';
 import 'package:footballapp/Provider/modelHud.dart';
 import 'package:footballapp/Services/auth.dart';
@@ -38,27 +39,27 @@ class Login extends StatelessWidget {
             key: _globalKey,
             child: Stack(
               children: <Widget>[
-//                SvgPicture.asset(
-//                  backgoungimage,
-//                  fit: BoxFit.cover,
-//                  width: width,
-//                  height: height,
-//                  color: Colors.white,
-//                ),
+                SvgPicture.asset(
+                  backgoungimage,
+                  fit: BoxFit.cover,
+                  width: width,
+                  height: height,
+                  color: Colors.white,
+                ),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   height: height,
                   width: width,
                   child: ListView(
                     children: <Widget>[
-//                      Padding(
-//                        padding: const EdgeInsets.symmetric(
-//                            horizontal: 50, vertical: 5),
-//                        child: Container(
-//                          width: width * 0.2,
-//                          child: SvgPicture.asset("images/icon.svg"),
-//                        ),
-//                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 50, vertical: 5),
+                        child: Container(
+                          width: width * 0.2,
+                          child: SvgPicture.asset("images/icon.svg"),
+                        ),
+                      ),
                       //text
                       Center(
                           child: Text(

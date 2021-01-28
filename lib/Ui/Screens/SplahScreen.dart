@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:footballapp/Ui/Screens/OnBoarding.dart';
-import 'package:footballapp/Ui/Screens/login.dart';
+import 'package:footballapp/Ui/Screens/waitingWidget.dart';
 import 'package:footballapp/utils/colors_file.dart';
 import 'dart:async';
 import 'package:footballapp/utils/navigator.dart';
@@ -19,7 +19,7 @@ class _openState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     Future.delayed(Duration(seconds: 3), () {
-      navigateAndClearStack(context,Login());
+      navigateAndClearStack(context,waitngWidget());
     });
   }
 
