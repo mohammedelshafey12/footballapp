@@ -11,7 +11,7 @@ void CustomSnackBar(BuildContext context,String content){
         content: Row(
           children: [
             Icon(Icons.insert_emoticon,
-                color: blackColor),
+                color: primaryAppColor),
             SizedBox(
               width: 20.0,
             ),
@@ -19,7 +19,7 @@ void CustomSnackBar(BuildContext context,String content){
               child:  Text(
                 "${content.toString()}",
                 style: TextStyle(
-                    color: blackColor),
+                    color: primaryAppColor),
               ) ,
             ),
           ],

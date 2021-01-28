@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+// import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Auth {
-  final FacebookLogin facebookLogin = FacebookLogin();
+  // final FacebookLogin facebookLogin = FacebookLogin();
   final _auth = FirebaseAuth.instance;
   Future<AuthResult> sign_up_with_email_and_password(
       String Email, String Password) async {

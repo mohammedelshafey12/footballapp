@@ -31,9 +31,9 @@ class _openState extends State<SplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset("images/football-player-setting-ball.svg",color: blackColor,height: 100,),
+              SvgPicture.asset("images/football-player-setting-ball.svg",color: primaryAppColor,height: 100,),
               SizedBox(height: 20),
-              Text("FootBall",style: TextStyle(color:blackColor,fontSize: 40 ),),
+              Text("FootBall",style: TextStyle(color:primaryAppColor,fontSize: 40 ),),
             ],
           )
       ),

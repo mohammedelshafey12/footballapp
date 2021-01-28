@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:footballapp/Provider/modelHud.dart';
 import 'package:footballapp/Services/auth.dart';
-import 'package:footballapp/Ui/Screens/home.dart';
+import 'package:footballapp/Ui/Screens/home_page.dart';
 import 'package:footballapp/Ui/Widgets/customTextFormField.dart';
 import 'package:footballapp/utils/colors_file.dart';
 import 'package:footballapp/utils/image_file.dart';
@@ -123,7 +123,7 @@ class Login extends StatelessWidget {
 
                                 modelhud.isprogressloding(false);
                                 //Navigator.pushNamed(context, waitngWidget.id);
-                                navigateAndClearStack(context, Home());
+                                navigateAndClearStack(context, HomePage());
                                 print(authResult.user.uid);
                               } on PlatformException catch (e) {
                                 Scaffold.of(context).showSnackBar(SnackBar(

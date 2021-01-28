@@ -1,6 +1,7 @@
 import 'dart:core';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:footballapp/Ui/Screens/login.dart';
 import 'package:footballapp/utils/colors_file.dart';
 import 'package:footballapp/utils/custom_widgets/backgrount.dart';
 import 'package:footballapp/utils/custom_widgets/custom_button.dart';
@@ -42,7 +43,7 @@ class _OnBoardingState extends State<OnBoarding> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: blackColor,
+      backgroundColor: primaryAppColor,
         body: Stack(
       children: [
         Background(),
@@ -56,7 +57,9 @@ class _OnBoardingState extends State<OnBoarding> {
                     height: 55,
                     width: MediaQuery.of(context).size.width,
                     child: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            navigateAndKeepStack(context, Login());
+                          },
                           child: RichText(
                             text: TextSpan(
                               text: "Sign in",
