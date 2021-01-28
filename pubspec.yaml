@@ -21,7 +21,7 @@ dependencies:
   provider: ^4.0.0
   google_sign_in:
   modal_progress_hud: ^0.1.3
-#  flutter_login_facebook: ^0.2.1
+  flutter_login_facebook: ^0.2.1
 
 dev_dependencies:
   flutter_test:

@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+//import 'package:flutter_svg/svg.dart';
 import 'package:footballapp/Provider/modelHud.dart';
 import 'package:footballapp/Services/auth.dart';
+import 'package:footballapp/Ui/Screens/Register.dart';
 import 'package:footballapp/Ui/Screens/home_page.dart';
 import 'package:footballapp/Ui/Widgets/customTextFormField.dart';
 import 'package:footballapp/utils/colors_file.dart';
@@ -14,16 +17,18 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
+import '../../utils/navigator.dart';
+import '../../utils/navigator.dart';
+
+
 class Login extends StatelessWidget {
   final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+  Auth auth = Auth();
+  String _email, _password;
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    Auth auth = Auth();
-    String _email, _password;
-    final _auth = FirebaseAuth.instance;
         return Material(
       child: Scaffold(
         backgroundColor: Color(0xfff283149),
@@ -33,27 +38,27 @@ class Login extends StatelessWidget {
             key: _globalKey,
             child: Stack(
               children: <Widget>[
-                SvgPicture.asset(
-                  backgoungimage,
-                  fit: BoxFit.cover,
-                  width: width,
-                  height: height,
-                  color: Colors.white,
-                ),
+//                SvgPicture.asset(
+//                  backgoungimage,
+//                  fit: BoxFit.cover,
+//                  width: width,
+//                  height: height,
+//                  color: Colors.white,
+//                ),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   height: height,
                   width: width,
                   child: ListView(
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 5),
-                        child: Container(
-                          width: width * 0.2,
-                          child: SvgPicture.asset("images/icon.svg"),
-                        ),
-                      ),
+//                      Padding(
+//                        padding: const EdgeInsets.symmetric(
+//                            horizontal: 50, vertical: 5),
+//                        child: Container(
+//                          width: width * 0.2,
+//                          child: SvgPicture.asset("images/icon.svg"),
+//                        ),
+//                      ),
                       //text
                       Center(
                           child: Text(
@@ -154,41 +159,8 @@ class Login extends StatelessWidget {
                           children: <Widget>[
                             GestureDetector(
                               onTap: () async {
-//                              Store store = Store();
-//                              UserProvider userprovider = Provider.of<UserProvider>(context,listen: false);
-//                              FacebookLoginResult facebookLoginResult = await facebookLogin.logIn();
-//
-//                              final FacebookAccessToken accessToken = facebookLoginResult.accessToken;
-//
-//                              AuthCredential authCredential = FacebookAuthProvider.getCredential(accessToken: accessToken.token);
-//
-//                              FirebaseUser user;
-//                              try{
-//                                user = (await auth1.signInWithCredential(authCredential)).user;
-//                                userprovider.getaccesstoken(accessToken.token);
-//
-//                                final DocumentSnapshot doc =
-//                                await Firestore.instance.collection(constants.usercollection).document(user.uid).get();
-//                                if(!doc.exists) {
-//                                  store.adduserfacebook(User(
-//                                      user.displayName, null, user.uid),
-//                                      user.uid);
-//                                }
-//
-//                                Navigator.pushNamed(context, waitngWidget.id);
-//                              }catch(e){
-//                                print(e.toString());
-//                              }finally{
-//                                if(user != null){
-//                                  print(user.displayName);
-//                                  print("https://graph.facebook.com/v2.12/me?fields=picture.height(200)&access_token=${facebookLoginResult.accessToken.token}");
-//                                  print(user.phoneNumber);
-//                                  print(user.email);
-//
-//
-//                                  // ignore: missing_return
-//                                }
-//                              }
+                                ///facebook auth fun
+                                auth.facebooksiginin(context);
                               },
                               child: Container(
                                   width: width * 0.4,
@@ -205,33 +177,8 @@ class Login extends StatelessWidget {
                             Builder(
                               builder: (context) => GestureDetector(
                                 onTap:() async {
-                                  final GoogleSignIn googleSignIn = GoogleSignIn();
-                                  final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-                                  final GoogleSignInAuthentication googleSignInAuthentication =
-                                      await googleSignInAccount.authentication;
-
-                                  final AuthCredential credential = GoogleAuthProvider.getCredential(
-                                    accessToken: googleSignInAuthentication.accessToken,
-                                    idToken: googleSignInAuthentication.idToken,
-                                  );
-
-                                  final AuthResult authResult = await _auth.signInWithCredential(credential);
-                                  final FirebaseUser user = authResult.user;
-                                  assert(!user.isAnonymous);
-                                  assert(await user.getIdToken() != null);
-
-                                  final FirebaseUser currentUser = await _auth.currentUser();
-                                  if(currentUser !=null){
-                                  //Store store = Store();
-//      final DocumentSnapshot doc =
-//      await Firestore.instance.collection(constants.usercollection).document(user.uid).get();
-//      if(!doc.exists) {
-//        store.adduserfacebook(User(
-//            user.displayName, null, user.uid),
-//            user.uid);
-                                  print("not null");
-                                  }
-                                 print ("home");
+                                  ///Google auth fun
+                                  auth.googlesignin(context);
                                 },
                                 child: Container(
                                     width: width * 0.4,
@@ -254,7 +201,7 @@ class Login extends StatelessWidget {
                               style: TextStyle(fontFamily: 'custom_font',color: Colors.white))),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.pushNamed(context, signup.id);
+                         navigateAndClearStack(context, Register());
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),

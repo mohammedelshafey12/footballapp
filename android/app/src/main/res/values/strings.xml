@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">El7reef</string>
+    <string name="facebook_app_id">458251868525368</string>
+    <string name="fb_login_protocol_scheme">fb458251868525368</string>
+</resources>

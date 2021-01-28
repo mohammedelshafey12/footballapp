@@ -18,7 +18,7 @@ class customTextFormField extends StatelessWidget {
       case "Email" :return "Email Is Empty";
       case "Password" :return "Password Is Empty";
       case "Age" :return "Age Is Empty";
-      default : return "value is empty";
+      default : return "يجب ملئ البيانات كامله";
     }
   }
 
