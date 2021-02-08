@@ -36,7 +36,7 @@ class customTextFormField extends StatelessWidget {
       },
       keyboardType: hint =="Age"?TextInputType.number:hint =="Email"?TextInputType.emailAddress:TextInputType.text,
       onSaved: onclick,
-      obscureText: hint=="Password"?true:false,
+      obscureText: hint=="كلمه السر"?true:false,
       cursorColor: primaryAppColor,
       decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(

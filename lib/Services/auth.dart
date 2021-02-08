@@ -178,98 +178,99 @@ final FacebookLogin facebookLogin = FacebookLogin();
 //            user.displayName, null, user.uid),
 //            user.uid);
        print("not null");
-     }
-     final DocumentSnapshot doc =  await Firestore.instance.collection(constants.usercollection).document(user.uid).get();
-     if(!doc.exists) {
-       final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
-       double height = MediaQuery
-           .of(context)
-           .size
-           .height;
-       showMaterialModalBottomSheet(
-         context: context,
-         builder: (context) =>
-             Scaffold(
-               body: Container(
-                 child: Form(
-                   key: _globalKey,
-                   child: Column(
-                     children: [
-                       SizedBox(height: height * 0.15,),
-                       Text("ااملأ البيانات التاليه${user.displayName} مرحب",
-                         style: TextStyle(fontFamily: 'custom_font'),),
-                       Padding(
-                         padding: const EdgeInsets.symmetric(
-                             horizontal: 20, vertical: 7),
-                         child: customTextFormField(hint: "عمرك",
-                             iconData: Icons.sentiment_neutral,
-                             onclick: (value) {
-                               _age = int.parse(value);
-                             }),
-                       ),
-                       Padding(
-                         padding: const EdgeInsets.symmetric(
-                             horizontal: 20, vertical: 7),
-                         child: customTextFormField(hint: "مركزك في الملعب",
-                             iconData: Icons.sports_esports,
-                             onclick: (value) {
-                               _possition = value;
-                             }),
-                       ),
-                       Padding(
-                         padding: const EdgeInsets.symmetric(
-                             horizontal: 20, vertical: 7),
-                         child: customTextFormField(hint: "رقم هاتفك",
-                             iconData: Icons.phone,
-                             onclick: (value) {
-                               _phone = int.parse(value);
-                             }),
-                       ),
-                       Padding(
-                         padding: const EdgeInsets.symmetric(
-                             horizontal: 20, vertical: 15),
-                         child: Builder(
-                           builder: (context) =>
-                               FlatButton(
-                                 padding: EdgeInsets.all(15),
-                                 shape: RoundedRectangleBorder(
-                                   borderRadius: BorderRadius.circular(10),),
-                                 onPressed: () async {
-                                   final modelhud = Provider.of<modelHud>(
-                                       context, listen: false);
-                                   if (_globalKey.currentState.validate()) {
-                                     _globalKey.currentState.save();
-                                     modelhud.isprogressloding(true);
-                                     try {
-
-                                       store.addGoogleUser(
-                                           user, _age, _possition);
-                                       navigateAndClearStack(
-                                           context, HomePage());
-                                       modelhud.isprogressloding(false);
-                                     } catch (e) {
-                                       print(e.toString());
-                                     }
-                                   }
-                                   modelhud.isprogressloding(false);
-                                 },
-                                 color: Colors.blue,
-
-                                 child: Text("تسجيل", style: TextStyle(
-                                     color: Colors.black,
-                                     fontFamily: "custom_font"),),
-                               ),
+       final DocumentSnapshot doc =  await Firestore.instance.collection(constants.usercollection).document(user.uid).get();
+       if(!doc.exists) {
+         final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+         double height = MediaQuery
+             .of(context)
+             .size
+             .height;
+         showMaterialModalBottomSheet(
+           context: context,
+           builder: (context) =>
+               Scaffold(
+                 body: Container(
+                   child: Form(
+                     key: _globalKey,
+                     child: Column(
+                       children: [
+                         SizedBox(height: height * 0.15,),
+                         Text("املأ البيانات التاليه${user.displayName} مرحبا",
+                           style: TextStyle(fontFamily: 'custom_font'),),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(
+                               horizontal: 20, vertical: 7),
+                           child: customTextFormField(hint: "عمرك",
+                               iconData: Icons.sentiment_neutral,
+                               onclick: (value) {
+                                 _age = int.parse(value);
+                               }),
                          ),
-                       ),
-                     ],
+                         Padding(
+                           padding: const EdgeInsets.symmetric(
+                               horizontal: 20, vertical: 7),
+                           child: customTextFormField(hint: "مركزك في الملعب",
+                               iconData: Icons.sports_esports,
+                               onclick: (value) {
+                                 _possition = value;
+                               }),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(
+                               horizontal: 20, vertical: 7),
+                           child: customTextFormField(hint: "رقم هاتفك",
+                               iconData: Icons.phone,
+                               onclick: (value) {
+                                 _phone = int.parse(value);
+                               }),
+                         ),
+                         Padding(
+                           padding: const EdgeInsets.symmetric(
+                               horizontal: 20, vertical: 15),
+                           child: Builder(
+                             builder: (context) =>
+                                 FlatButton(
+                                   padding: EdgeInsets.all(15),
+                                   shape: RoundedRectangleBorder(
+                                     borderRadius: BorderRadius.circular(10),),
+                                   onPressed: () async {
+                                     final modelhud = Provider.of<modelHud>(
+                                         context, listen: false);
+                                     if (_globalKey.currentState.validate()) {
+                                       _globalKey.currentState.save();
+                                       modelhud.isprogressloding(true);
+                                       try {
+
+                                         store.addGoogleUser(
+                                             user, _age, _possition);
+                                         navigateAndClearStack(
+                                             context, HomePage());
+                                         modelhud.isprogressloding(false);
+                                       } catch (e) {
+                                         print(e.toString());
+                                       }
+                                     }
+                                     modelhud.isprogressloding(false);
+                                   },
+                                   color: Colors.blue,
+
+                                   child: Text("تسجيل", style: TextStyle(
+                                       color: Colors.black,
+                                       fontFamily: "custom_font"),),
+                                 ),
+                           ),
+                         ),
+                       ],
+                     ),
                    ),
                  ),
                ),
-             ),
-       );
-     }else{
-       navigateAndClearStack(context, HomePage());
+         );
+       }else{
+         navigateAndClearStack(context, HomePage());
+       }
      }
+
 
    }
   Future signout() async{

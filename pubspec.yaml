@@ -18,6 +18,8 @@ dependencies:
   url_launcher:
   cloud_firestore: ^0.13.7
   firebase_auth:
+  intl: 0.15.7
+  like_button: ^1.0.4
   provider: ^4.0.0
   google_sign_in:
   modal_progress_hud: ^0.1.3

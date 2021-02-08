@@ -1,16 +1,41 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:footballapp/Ui/Widgets/customTextFormField.dart';
-import 'package:footballapp/Ui/Widgets/custom_home_drawer.dart';
+import 'package:flutter/widgets.dart';
+import 'package:footballapp/Services/store.dart';
+import 'package:footballapp/Ui/Screens/postsWidget.dart';
+import 'package:footballapp/models/post.dart';
 import 'package:footballapp/utils/colors_file.dart';
+import 'package:footballapp/utils/constants.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  String _postcontent;
+
+  final GlobalKey<FormState> _globalKey = GlobalKey<FormState>();
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  FirebaseUser user;
+  Store store = Store();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getuserinfo();
+  }
+  final ScrollController _mycontroller = new ScrollController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
           backgroundColor: greyPrimaryColor,
           bottom: PreferredSize(
@@ -32,7 +57,7 @@ class HomeScreen extends StatelessWidget {
                                   color: whiteColor,
                                   size: 30,
                                 ),
-                                onPressed: (){
+                                onPressed: () {
                                   Scaffold.of(context).openDrawer();
                                 }),
                             SizedBox(
@@ -101,206 +126,211 @@ class HomeScreen extends StatelessWidget {
           )),
       backgroundColor: blackColor,
       body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20, left: 20),
-                      child: TextFormField(
-                        maxLines: 4,
-                        keyboardType: TextInputType.text,
-                        style: TextStyle(color: whiteColor, height: .8),
-                        cursorColor: whiteColor,
-                        textAlign: TextAlign.end,
-                        decoration: InputDecoration(
-                            fillColor: Colors.grey.withOpacity(.1),
-                            filled: true,
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide.none,
-                                borderRadius: BorderRadius.circular(5)),
-                            hintText: '. . . أكتب شيْ ما',
-                            hintStyle: TextStyle(
-                                color: whiteColor.withOpacity(.5),
-                                fontFamily: 'custom_font',
-                                fontSize: 13)),
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              controller: _mycontroller,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 20,
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20, left: 20),
+                        child: Form(
+                          key: _globalKey,
+                          child: TextFormField(
+                            onSaved: (val) {
+                              _postcontent = val;
+                            },
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return "من فضلك ادخل النص...";
+                              }
+                            },
+                            maxLines: 4,
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(color: whiteColor, height: .8),
+                            cursorColor: whiteColor,
+                            textAlign: TextAlign.end,
+                            decoration: InputDecoration(
+                                fillColor: Colors.grey.withOpacity(.1),
+                                filled: true,
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
+                                    borderRadius: BorderRadius.circular(5)),
+                                hintText: '. . . أكتب شيْ ما',
+                                hintStyle: TextStyle(
+                                    color: whiteColor.withOpacity(.5),
+                                    fontFamily: 'custom_font',
+                                    fontSize: 13)),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: OutlineButton(
+                            borderSide: BorderSide(color: Colors.blue),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () {
+                              if (_globalKey.currentState.validate()) {
+                                _globalKey.currentState.save();
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        backgroundColor: Color(0xff1D1D1D),
+                                        title: Text(
+                                          "كتابه منشور جديد",
+                                          style: TextStyle(
+                                              fontFamily: 'custom_font',
+                                              color: Colors.white),
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        actions: [
+                                          FlatButton(
+                                              onPressed: () async {
+                                                _globalKey.currentState.reset();
+                                                DateTime postTime =
+                                                    DateTime.now();
+                                                Store store = Store();
+                                                final FirebaseUser user =
+                                                    await _auth.currentUser();
+                                                final uid = user.uid;
+                                                Firestore.instance.collection(constants.usercollection).document(uid)
+                                                    .get().then((DocumentSnapshot) =>
+                                                    store.addPost(Post(_postcontent,postTime,uid,DocumentSnapshot.data[constants.username].toString()))
+                                                    //print(DocumentSnapshot.data[constants.username].toString())
+                                                );
 
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "مباريات اليوم",
-                        style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 25,
-                            fontFamily: 'custom_font'),
-                      )),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 20),
-                  height: 167,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: 5,
-                      itemBuilder: (BuildContext context, int index) {
-                        return InkWell(
-                          onTap: () {},
-                          child: Container(
-                            margin: EdgeInsets.only(right: 10),
-                            width: 200,
-                            // padding: EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                image: DecorationImage(
-                                    image: AssetImage("images/carosal-1.jpg"),
-                                    fit: BoxFit.cover)),
-                          ),
-                        );
-                      }),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 30),
-                  child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "اخر النشاطات",
-                        style: TextStyle(
-                            color: whiteColor,
-                            fontSize: 25,
-                            fontFamily: 'custom_font'),
-                      )),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20, left: 20),
-                  child: Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                        // color: greyPrimaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: greyPrimaryColor)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListTile(
-                          leading: CircleAvatar(
-                            backgroundImage:
-                                AssetImage("images/playerImage.jpg"),
-                          ),
-                          title: Text(
-                            "@AhmedSalem",
-                            style: TextStyle(color: whiteColor),
-                          ),
-                          subtitle: Text("2 hours ago",
-                              style: TextStyle(color: grey)),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    "#winner",
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                  Text(
-                                    ", ",
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                  Text(
-                                    "#super",
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ultricies orci eu vehicula dictum. Sed venenatis",
-                                style: TextStyle(color: whiteColor),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width / 3,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        SvgPicture.asset(
-                                          "images/heart.svg",
-                                          color: Colors.red,
-                                          width: 22,
-                                          height: 22,
+                                                Navigator.of(context).pop();
+
+                                                _scaffoldKey.currentState
+                                                    .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      "تم اضافه المنشور بنجاح",
+                                                      style: TextStyle(
+                                                          fontFamily:
+                                                              'custom_font')),
+                                                  elevation: 2,
+                                                ));
+                                              },
+                                              child: Text(
+                                                "ارسال",
+                                                style: TextStyle(
+                                                    fontFamily: 'custom_font'),
+                                              )),
+                                          FlatButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text(
+                                                "الرجوع للتطبيق",
+                                                style: TextStyle(
+                                                    fontFamily: 'custom_font'),
+                                              ))
+                                        ],
+                                        content: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.15,
+                                          child: Center(
+                                            child: Text(
+                                              "هل تريد فعلا كتابه هذا المنشور..",
+                                              style: TextStyle(
+                                                  fontFamily: 'custom_font',
+                                                  color: Colors.white),
+                                            ),
+                                          ),
                                         ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          "Like",
-                                          style: TextStyle(color: whiteColor),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.share,
-                                          color: whiteColor,
-                                          size: 20,
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-                                        Text(
-                                          "Share",
-                                          style: TextStyle(color: whiteColor),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+                                      );
+                                    });
+                              }
+                            },
+                            child: Text("ارسال",
+                                style: TextStyle(
+                                  color: whiteColor.withOpacity(.5),
+                                  fontFamily: 'custom_font',
+                                ))),
+                      )
+                    ],
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "مباريات اليوم",
+                          style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 25,
+                              fontFamily: 'custom_font'),
+                        )),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+//                  Container(
+//                    margin: EdgeInsets.only(left: 20),
+//                    height: 167,
+//                    width: MediaQuery.of(context).size.width,
+//                    child: ListView.builder(
+//                        scrollDirection: Axis.horizontal,
+//                        itemCount: 5,
+//                        itemBuilder: (BuildContext context, int index) {
+//                          return InkWell(
+//                            onTap: () {},
+//                            child: Container(
+//                              margin: EdgeInsets.only(right: 10),
+//                              width: 200,
+//                              // padding: EdgeInsets.only(right: 10),
+//                              decoration: BoxDecoration(
+//                                  borderRadius: BorderRadius.circular(10),
+//                                  image: DecorationImage(
+//                                      image: AssetImage("images/carosal-1.jpg"),
+//                                      fit: BoxFit.cover)),
+//                            ),
+//                          );
+//                        }),
+//                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "اخر النشاطات",
+                          style: TextStyle(
+                              color: whiteColor,
+                              fontSize: 25,
+                              fontFamily: 'custom_font'),
+                        )),
+                  ),
+
+                  PostsWidget(_mycontroller)
+                ],
+              ),
             ),
           ),
         ),
-      ),
+
     );
+  }
+
+  Future<void> getuserinfo() async {
+    user = await _auth.currentUser();
   }
 }

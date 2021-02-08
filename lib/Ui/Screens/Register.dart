@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:footballapp/Ui/Screens/waitingWidget.dart';
 import 'package:footballapp/models/user.dart';
+import 'package:footballapp/utils/navigator.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:provider/provider.dart';
 
@@ -134,6 +136,7 @@ class Register extends StatelessWidget {
                                     modelhud.isprogressloding(false);
                                   store.adduser(User(_name,authResult.user.uid,_phone,_possition,_age));
                                    // Navigator.pushNamed(context, waitngWidget.id);
+                                    navigateAndClearStack(context, waitngWidget());
                                     print(authResult.user.uid);
                                   }on PlatformException catch(e){
                                     Scaffold.of(context).showSnackBar(SnackBar(

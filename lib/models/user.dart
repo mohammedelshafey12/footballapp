@@ -6,5 +6,5 @@ class User {
  int userAge;
 
  User(this.username, this.uid, this.userPhoneNumber, this.userPossition,
-      this.userAge);
+     this.userAge);
 }
